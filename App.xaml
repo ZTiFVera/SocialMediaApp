@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="SocialMediaApp.App">
+
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <!-- Converter -->
+            <toolkit:InvertedBoolConverter
+                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                x:Key="InvertedBoolConverter"/>
+
+            <!-- Global Colors -->
+            <Color x:Key="PrimaryColor">#5B4FCF</Color>
+            <Color x:Key="SecondaryColor">#E0E0E0</Color>
+            <Color x:Key="TextColor">#333333</Color>
+
+            <!-- Global Styles -->
+            <Style TargetType="Button">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="CornerRadius" Value="10"/>
+            </Style>
+
+            <Style TargetType="Entry">
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="TextColor" Value="#333333"/>
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>
