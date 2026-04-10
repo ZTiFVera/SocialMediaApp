@@ -5,13 +5,13 @@
         public App()
         {
             InitializeComponent();
-            MainPage = new AppShell();
         }
 
-
+        // CreateWindow replaces the deprecated MainPage setter (CS0618)
         protected override Window CreateWindow(IActivationState? activationState)
         {
             return new Window(new AppShell());
         }
     }
 }
+

@@ -10,8 +10,4 @@ public partial class LoginPage : ContentPage
         BindingContext = vm;
     }
 
-    private void InitializeComponent()
-    {
-        throw new NotImplementedException();
-    }
 }

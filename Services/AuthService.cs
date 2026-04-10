@@ -22,14 +22,13 @@ namespace SocialMediaApp.Services
         {
             try
             {
-                // Fetch users and validate credentials (simulated)
                 var response = await _httpClient.GetAsync(ApiConstants.UsersEndpoint);
                 if (!response.IsSuccessStatusCode) return false;
 
                 var json = await response.Content.ReadAsStringAsync();
                 var users = JsonConvert.DeserializeObject<List<User>>(json);
 
-                // Simulate login check by username
+                // Simulate login check by username only (JSONPlaceholder has no real passwords)
                 return users?.Any(u =>
                     u.Username.Equals(username, StringComparison.OrdinalIgnoreCase)) ?? false;
             }
@@ -41,18 +40,13 @@ namespace SocialMediaApp.Services
             try
             {
                 var json = JsonConvert.SerializeObject(user);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
                 // POST to REST API (JSONPlaceholder simulates success)
                 var response = await _httpClient.PostAsync(ApiConstants.UsersEndpoint, content);
                 return response.IsSuccessStatusCode;
             }
             catch { return false; }
-        }
-
-        public Task<bool> RegisterAsync(User user)
-        {
-            throw new NotImplementedException();
         }
     }
 }

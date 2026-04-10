@@ -14,11 +14,14 @@ namespace SocialMediaApp.ViewModels
     {
         private readonly IAuthService _authService;
 
-        [ObservableProperty] private string username = string.Empty;
-        [ObservableProperty] private string email = string.Empty;
-        [ObservableProperty] private string password = string.Empty;
+        [ObservableProperty]
+        private string username = string.Empty;
 
-        public string? Username { get; private set; }
+        [ObservableProperty]
+        private string  email = string.Empty;
+
+        [ObservableProperty]
+        private string password = string.Empty;
 
         public RegisterViewModel(IAuthService authService)
         {

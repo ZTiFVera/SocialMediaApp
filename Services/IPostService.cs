@@ -9,9 +9,10 @@ namespace SocialMediaApp.Services
 {
     public interface IPostService
     {
+        Task<List<Post>> GetPostsAsync();
         Task<bool> CreatePostAsync(Post post);
         Task<bool> UpdatePostAsync(Post post);
-        Task<List<Post>> GetPostsAsync();
+        Task<bool> DeletePostAsync(int id);
     }
     
 }

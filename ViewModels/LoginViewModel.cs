@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SocialMediaApp.Services;
+using SocialMediaApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,6 @@ namespace SocialMediaApp.ViewModels
 
         [ObservableProperty]
         private string password = string.Empty;
-
-        public bool IsBusy { get; private set; }
 
         public LoginViewModel(IAuthService authService)
         {
@@ -55,3 +54,4 @@ namespace SocialMediaApp.ViewModels
         }
     }
 }
+
