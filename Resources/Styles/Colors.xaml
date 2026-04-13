@@ -4,28 +4,45 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
+    <!-- Instagram Gradient Colors -->
+    <Color x:Key="IGPurple">#833AB4</Color>
+    <Color x:Key="IGPink">#C13584</Color>
+    <Color x:Key="IGOrange">#E1306C</Color>
+    <Color x:Key="IGRed">#F77737</Color>
+    <Color x:Key="IGYellow">#FCAF45</Color>
+    <Color x:Key="IGBlue">#405DE6</Color>
+    <Color x:Key="IGFacebookBlue">#3897F0</Color>
 
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
-    <Color x:Key="PrimaryDarkText">#242424</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="SecondaryDarkText">#9880e5</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
+    <!-- Neutrals -->
+    <Color x:Key="IGBackground">#FAFAFA</Color>
+    <Color x:Key="IGWhite">#FFFFFF</Color>
+    <Color x:Key="IGBlack">#000000</Color>
+    <Color x:Key="IGDivider">#DBDBDB</Color>
+    <Color x:Key="IGTextPrimary">#262626</Color>
+    <Color x:Key="IGTextSecondary">#8E8E8E</Color>
+    <Color x:Key="IGInputBg">#EFEFEF</Color>
+
+    <!-- Keep MAUI required keys -->
+    <Color x:Key="Primary">#C13584</Color>
+    <Color x:Key="PrimaryDark">#833AB4</Color>
+    <Color x:Key="PrimaryDarkText">#FFFFFF</Color>
+    <Color x:Key="Secondary">#EFEFEF</Color>
+    <Color x:Key="SecondaryDarkText">#262626</Color>
+    <Color x:Key="Tertiary">#405DE6</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
-    <Color x:Key="Magenta">#D600AA</Color>
-    <Color x:Key="MidnightBlue">#190649</Color>
+    <Color x:Key="Magenta">#C13584</Color>
+    <Color x:Key="MidnightBlue">#405DE6</Color>
     <Color x:Key="OffBlack">#1f1f1f</Color>
 
-    <Color x:Key="Gray100">#E1E1E1</Color>
-    <Color x:Key="Gray200">#C8C8C8</Color>
-    <Color x:Key="Gray300">#ACACAC</Color>
-    <Color x:Key="Gray400">#919191</Color>
-    <Color x:Key="Gray500">#6E6E6E</Color>
-    <Color x:Key="Gray600">#404040</Color>
-    <Color x:Key="Gray900">#212121</Color>
+    <Color x:Key="Gray100">#EFEFEF</Color>
+    <Color x:Key="Gray200">#DBDBDB</Color>
+    <Color x:Key="Gray300">#C7C7C7</Color>
+    <Color x:Key="Gray400">#AAAAAA</Color>
+    <Color x:Key="Gray500">#8E8E8E</Color>
+    <Color x:Key="Gray600">#636363</Color>
+    <Color x:Key="Gray900">#262626</Color>
     <Color x:Key="Gray950">#141414</Color>
 
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
@@ -42,4 +59,5 @@
     <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+
 </ResourceDictionary>

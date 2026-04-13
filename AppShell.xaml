@@ -3,7 +3,14 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:views="clr-namespace:SocialMediaApp.Views"
        x:Class="SocialMediaApp.AppShell"
-       Shell.NavBarHasShadow="True">
+       Shell.NavBarHasShadow="False"
+       Shell.BackgroundColor="White"
+       Shell.ForegroundColor="#262626"
+       Shell.TitleColor="#262626"
+       Shell.TabBarBackgroundColor="White"
+       Shell.TabBarForegroundColor="#262626"
+       Shell.TabBarUnselectedColor="#8E8E8E"
+       Shell.TabBarTitleColor="#262626">
 
     <ShellContent Title="Login"
                   ContentTemplate="{DataTemplate views:LoginPage}"

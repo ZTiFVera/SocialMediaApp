@@ -4,42 +4,129 @@
              xmlns:vm="clr-namespace:SocialMediaApp.ViewModels"
              x:Class="SocialMediaApp.Views.LoginPage"
              x:DataType="vm:LoginViewModel"
-             Title="{Binding Title}">
+             Title=""
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#FAFAFA">
 
     <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+        <VerticalStackLayout Padding="0" Spacing="0" VerticalOptions="Center">
 
-            <Label Text="🌐 SocialApp"
-                   FontSize="36" FontAttributes="Bold"
-                   HorizontalOptions="Center" TextColor="#5B4FCF"/>
+            <!-- Top gradient banner mimicking IG logo area -->
+            <Grid HeightRequest="220">
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#405DE6" Offset="0.0"/>
+                        <GradientStop Color="#833AB4" Offset="0.25"/>
+                        <GradientStop Color="#C13584" Offset="0.5"/>
+                        <GradientStop Color="#E1306C" Offset="0.75"/>
+                        <GradientStop Color="#F77737" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
 
-            <Label Text="Welcome Back!"
-                   FontSize="18" HorizontalOptions="Center" TextColor="Gray"/>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="6">
+                    <!-- Camera icon in white circle -->
+                    <Border StrokeShape="RoundRectangle 24"
+                            BackgroundColor="Transparent"
+                            Stroke="White" StrokeThickness="2.5"
+                            WidthRequest="60" HeightRequest="60"
+                            HorizontalOptions="Center">
+                        <Label Text="📷" FontSize="30"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <Label Text="Instagram"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="34"
+                           TextColor="White"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Grid>
 
-            <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10">
-                <Entry Placeholder="Username" Text="{Binding Username}" Margin="10,5"/>
-            </Border>
+            <!-- White card form -->
+            <VerticalStackLayout Padding="30,32" Spacing="14" BackgroundColor="#FAFAFA">
 
-            <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10">
-                <Entry Placeholder="Password" Text="{Binding Password}"
-                       IsPassword="True" Margin="10,5"/>
-            </Border>
+                <!-- Username Field -->
+                <Border Stroke="#DBDBDB" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 4"
+                        BackgroundColor="#EFEFEF">
+                    <Entry Placeholder="Phone number, username, or email"
+                           Text="{Binding Username}"
+                           Margin="12,0"
+                           HeightRequest="44"
+                           BackgroundColor="Transparent"/>
+                </Border>
 
-            <Button Text="Login"
-                    Command="{Binding LoginCommand}"
-                    BackgroundColor="#5B4FCF" TextColor="White"
-                    CornerRadius="10" HeightRequest="50"
-                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
+                <!-- Password Field -->
+                <Border Stroke="#DBDBDB" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 4"
+                        BackgroundColor="#EFEFEF">
+                    <Entry Placeholder="Password"
+                           Text="{Binding Password}"
+                           IsPassword="True"
+                           Margin="12,0"
+                           HeightRequest="44"
+                           BackgroundColor="Transparent"/>
+                </Border>
 
-            <ActivityIndicator IsRunning="{Binding IsBusy}"
-                               IsVisible="{Binding IsBusy}" Color="#5B4FCF"/>
+                <!-- Forgot password -->
+                <Label Text="Forgot password?"
+                       FontSize="12"
+                       TextColor="#3897F0"
+                       HorizontalOptions="End"/>
 
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
-                <Label Text="Don't have an account?" VerticalOptions="Center"/>
-                <Button Text="Register"
+                <!-- Login Button with gradient -->
+                <Grid HeightRequest="44" Margin="0,4,0,0">
+                    <Grid.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#833AB4" Offset="0.0"/>
+                            <GradientStop Color="#C13584" Offset="0.5"/>
+                            <GradientStop Color="#E1306C" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <Button Text="Log In"
+                            Command="{Binding LoginCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
+                </Grid>
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}"
+                                   Color="#C13584" Margin="0,4"/>
+
+                <!-- OR divider -->
+                <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="12" Margin="0,8">
+                    <BoxView Grid.Column="0" HeightRequest="1" BackgroundColor="#DBDBDB" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Text="OR"
+                           FontSize="12" FontAttributes="Bold"
+                           TextColor="#8E8E8E" VerticalOptions="Center"/>
+                    <BoxView Grid.Column="2" HeightRequest="1" BackgroundColor="#DBDBDB" VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- Sign up with Facebook placeholder -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
+                    <Label Text="f" FontSize="18" TextColor="#3897F0" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label Text="Log in with Facebook"
+                           FontSize="14" TextColor="#3897F0" FontAttributes="Bold" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+
+            <!-- Divider -->
+            <BoxView HeightRequest="0.8" BackgroundColor="#DBDBDB" Margin="0,8"/>
+
+            <!-- Sign Up footer -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="4" Padding="0,14">
+                <Label Text="Don't have an account?"
+                       FontSize="13" TextColor="#262626" VerticalOptions="Center"/>
+                <Button Text="Sign up."
                         Command="{Binding GoToRegisterCommand}"
-                        BackgroundColor="Transparent" TextColor="#5B4FCF"
-                        FontAttributes="Bold" Padding="0"/>
+                        BackgroundColor="Transparent"
+                        TextColor="#C13584"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        Padding="0"/>
             </HorizontalStackLayout>
 
         </VerticalStackLayout>

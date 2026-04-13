@@ -9,22 +9,40 @@
 
             <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter"/>
 
-            <Color x:Key="PrimaryColor">#5B4FCF</Color>
-            <Color x:Key="SecondaryColor">#E0E0E0</Color>
-            <Color x:Key="TextColor">#333333</Color>
+            <!-- Instagram Core Palette -->
+            <Color x:Key="IGPurple">#833AB4</Color>
+            <Color x:Key="IGPink">#C13584</Color>
+            <Color x:Key="IGOrange">#E1306C</Color>
+            <Color x:Key="IGYellow">#F77737</Color>
+            <Color x:Key="IGGold">#FCAF45</Color>
+            <Color x:Key="IGBlue">#405DE6</Color>
 
+            <!-- Neutrals -->
+            <Color x:Key="IGBackground">#FAFAFA</Color>
+            <Color x:Key="IGWhite">#FFFFFF</Color>
+            <Color x:Key="IGBlack">#000000</Color>
+            <Color x:Key="IGDivider">#DBDBDB</Color>
+            <Color x:Key="IGTextPrimary">#262626</Color>
+            <Color x:Key="IGTextSecondary">#8E8E8E</Color>
+            <Color x:Key="IGLightGray">#EFEFEF</Color>
+
+            <!-- Global Button Style -->
             <Style TargetType="Button">
-                <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="FontFamily" Value="OpenSansSemibold"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="Padding" Value="0"/>
             </Style>
 
             <Style TargetType="Entry">
                 <Setter Property="FontSize" Value="14"/>
+                <Setter Property="TextColor" Value="#262626"/>
+                <Setter Property="PlaceholderColor" Value="#AAAAAA"/>
             </Style>
 
             <Style TargetType="Label">
                 <Setter Property="FontSize" Value="14"/>
-                <Setter Property="TextColor" Value="#333333"/>
+                <Setter Property="TextColor" Value="#262626"/>
             </Style>
 
         </ResourceDictionary>

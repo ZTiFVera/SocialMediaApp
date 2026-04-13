@@ -4,47 +4,125 @@
              xmlns:vm="clr-namespace:SocialMediaApp.ViewModels"
              x:Class="SocialMediaApp.Views.RegisterPage"
              x:DataType="vm:RegisterViewModel"
-             Title="{Binding Title}">
+             Title=""
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#FAFAFA">
 
     <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+        <VerticalStackLayout Padding="0" Spacing="0" VerticalOptions="Center">
 
-            <Label Text="🌐 SocialApp"
-                   FontSize="36" FontAttributes="Bold"
-                   HorizontalOptions="Center" TextColor="#5B4FCF"/>
+            <!-- Gradient Header -->
+            <Grid HeightRequest="180">
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#405DE6" Offset="0.0"/>
+                        <GradientStop Color="#833AB4" Offset="0.3"/>
+                        <GradientStop Color="#C13584" Offset="0.6"/>
+                        <GradientStop Color="#F77737" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
 
-            <Label Text="Create an Account"
-                   FontSize="18" HorizontalOptions="Center" TextColor="Gray"/>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="4">
+                    <Label Text="Instagram"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="34"
+                           TextColor="White"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Sign up to see photos and videos"
+                           FontSize="13"
+                           TextColor="#FFFFFFCC"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Grid>
 
-            <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10">
-                <Entry Placeholder="Username" Text="{Binding Username}" Margin="10,5"/>
-            </Border>
+            <!-- Form -->
+            <VerticalStackLayout Padding="30,28" Spacing="12" BackgroundColor="#FAFAFA">
 
-            <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10">
-                <Entry Placeholder="Email" Text="{Binding Email}"
-                       Keyboard="Email" Margin="10,5"/>
-            </Border>
+                <!-- Mobile / Email -->
+                <Border Stroke="#DBDBDB" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 4"
+                        BackgroundColor="#EFEFEF">
+                    <Entry Placeholder="Mobile number or email"
+                           Text="{Binding Email}"
+                           Keyboard="Email"
+                           Margin="12,0" HeightRequest="44"
+                           BackgroundColor="Transparent"/>
+                </Border>
 
-            <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10">
-                <Entry Placeholder="Password" Text="{Binding Password}"
-                       IsPassword="True" Margin="10,5"/>
-            </Border>
+                <!-- Full name / Username -->
+                <Border Stroke="#DBDBDB" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 4"
+                        BackgroundColor="#EFEFEF">
+                    <Entry Placeholder="Username"
+                           Text="{Binding Username}"
+                           Margin="12,0" HeightRequest="44"
+                           BackgroundColor="Transparent"/>
+                </Border>
 
-            <Button Text="Create Account"
-                    Command="{Binding RegisterCommand}"
-                    BackgroundColor="#5B4FCF" TextColor="White"
-                    CornerRadius="10" HeightRequest="50"
-                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
+                <!-- Password -->
+                <Border Stroke="#DBDBDB" StrokeThickness="1"
+                        StrokeShape="RoundRectangle 4"
+                        BackgroundColor="#EFEFEF">
+                    <Entry Placeholder="Password"
+                           Text="{Binding Password}"
+                           IsPassword="True"
+                           Margin="12,0" HeightRequest="44"
+                           BackgroundColor="Transparent"/>
+                </Border>
 
-            <ActivityIndicator IsRunning="{Binding IsBusy}"
-                               IsVisible="{Binding IsBusy}" Color="#5B4FCF"/>
+                <!-- Terms notice -->
+                <Label TextColor="#8E8E8E" FontSize="11" HorizontalTextAlignment="Center" Margin="0,4">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="By signing up, you agree to our "/>
+                            <Span Text="Terms" TextColor="#3897F0"/>
+                            <Span Text=", "/>
+                            <Span Text="Privacy Policy" TextColor="#3897F0"/>
+                            <Span Text=" and "/>
+                            <Span Text="Cookies Policy" TextColor="#3897F0"/>
+                            <Span Text="."/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
 
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
-                <Label Text="Already have an account?" VerticalOptions="Center"/>
-                <Button Text="Login"
+                <!-- Sign Up Button -->
+                <Grid HeightRequest="44" Margin="0,4,0,0">
+                    <Grid.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#833AB4" Offset="0.0"/>
+                            <GradientStop Color="#C13584" Offset="0.5"/>
+                            <GradientStop Color="#E1306C" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <Button Text="Sign Up"
+                            Command="{Binding RegisterCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
+                </Grid>
+
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}"
+                                   Color="#C13584" Margin="0,4"/>
+
+            </VerticalStackLayout>
+
+            <!-- Divider -->
+            <BoxView HeightRequest="0.8" BackgroundColor="#DBDBDB" Margin="0,8"/>
+
+            <!-- Already have account -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="4" Padding="0,14">
+                <Label Text="Have an account?"
+                       FontSize="13" TextColor="#262626" VerticalOptions="Center"/>
+                <Button Text="Log in."
                         Command="{Binding GoBackCommand}"
-                        BackgroundColor="Transparent" TextColor="#5B4FCF"
-                        FontAttributes="Bold" Padding="0"/>
+                        BackgroundColor="Transparent"
+                        TextColor="#C13584"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        Padding="0"/>
             </HorizontalStackLayout>
 
         </VerticalStackLayout>

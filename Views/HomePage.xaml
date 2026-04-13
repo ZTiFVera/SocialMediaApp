@@ -6,7 +6,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="SocialMediaApp.Views.HomePage"
              x:DataType="vm:HomeViewModel"
-             Title="{Binding Title}">
+             BackgroundColor="#FAFAFA">
 
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior
@@ -14,88 +14,237 @@
             Command="{Binding LoadPostsCommand}"/>
     </ContentPage.Behaviors>
 
+    <!-- Custom Instagram-style NavBar -->
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Logout" Command="{Binding LogoutCommand}"/>
+        <ToolbarItem Text="＋" Command="{Binding CreatePostCommand}" Priority="0"/>
+        <ToolbarItem Text="Log out" Command="{Binding LogoutCommand}" Priority="1"/>
     </ContentPage.ToolbarItems>
 
-    <Grid RowDefinitions="Auto,Auto,*" Padding="15" RowSpacing="10">
+    <Grid RowDefinitions="Auto,Auto,Auto,*" RowSpacing="0">
 
-        <!-- Create Post Section -->
-        <Border Grid.Row="0"
-                Stroke="#E0E0E0" StrokeThickness="1"
-                StrokeShape="RoundRectangle 12" Padding="15">
-            <VerticalStackLayout Spacing="10">
+        <!-- IG Logo bar -->
+        <Grid Grid.Row="0" BackgroundColor="White"
+              Padding="16,10" ColumnDefinitions="*,Auto,Auto">
+            <Label Grid.Column="0"
+                   Text="Instagram"
+                   FontFamily="OpenSansSemibold"
+                   FontSize="26"
+                   VerticalOptions="Center">
+                <Label.TextColor>
+                    <Color>#262626</Color>
+                </Label.TextColor>
+            </Label>
+            <Label Grid.Column="1" Text="♥" FontSize="24" TextColor="#262626"
+                   VerticalOptions="Center" Margin="0,0,16,0"/>
+            <Label Grid.Column="2" Text="✈" FontSize="22" TextColor="#262626"
+                   VerticalOptions="Center"/>
+        </Grid>
 
-                <Label Text="Create a Post"
-                       FontSize="16" FontAttributes="Bold" TextColor="#5B4FCF"/>
+        <!-- Thin divider -->
+        <BoxView Grid.Row="1" HeightRequest="0.5" BackgroundColor="#DBDBDB"/>
 
-                <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 8">
-                    <Entry Placeholder="Post Title" Text="{Binding NewPostTitle}" Margin="10,5"/>
-                </Border>
+        <!-- Create Post Card — Instagram Stories style input -->
+        <Border Grid.Row="2"
+                BackgroundColor="White"
+                Stroke="#DBDBDB" StrokeThickness="0"
+                Padding="14,12">
+            <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="10">
 
-                <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 8">
-                    <Editor Placeholder="What's on your mind?"
-                            Text="{Binding NewPostBody}"
-                            HeightRequest="80" Margin="10,5"/>
-                </Border>
+                <Grid Grid.Row="0" ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                    <!-- Avatar ring with gradient -->
+                    <Grid Grid.Column="0" WidthRequest="44" HeightRequest="44">
+                        <Ellipse WidthRequest="44" HeightRequest="44">
+                            <Ellipse.Fill>
+                                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                                    <GradientStop Color="#FCAF45" Offset="0.0"/>
+                                    <GradientStop Color="#F77737" Offset="0.25"/>
+                                    <GradientStop Color="#E1306C" Offset="0.5"/>
+                                    <GradientStop Color="#C13584" Offset="0.75"/>
+                                    <GradientStop Color="#833AB4" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Ellipse WidthRequest="40" HeightRequest="40"
+                                 Fill="White"
+                                 HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Label Text="📝" FontSize="18"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Grid>
 
-                <Button Text="Post"
-                        Command="{Binding CreatePostCommand}"
-                        BackgroundColor="#5B4FCF" TextColor="White"
-                        CornerRadius="8" HeightRequest="45"
-                        IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
-            </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" Spacing="6" VerticalOptions="Center">
+                        <Border Stroke="#DBDBDB" StrokeThickness="1"
+                                StrokeShape="RoundRectangle 20" BackgroundColor="#EFEFEF">
+                            <Entry Placeholder="Post title..."
+                                   Text="{Binding NewPostTitle}"
+                                   FontSize="13"
+                                   Margin="14,0" HeightRequest="36"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
+                        <Border Stroke="#DBDBDB" StrokeThickness="1"
+                                StrokeShape="RoundRectangle 20" BackgroundColor="#EFEFEF">
+                            <Entry Placeholder="What's on your mind?"
+                                   Text="{Binding NewPostBody}"
+                                   FontSize="13"
+                                   Margin="14,0" HeightRequest="36"
+                                   BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Action row -->
+                <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Padding="0,2,0,0">
+                    <HorizontalStackLayout Grid.Column="0" Spacing="20">
+                        <Label Text="📷 Photo" FontSize="12" TextColor="#262626"/>
+                        <Label Text="🎥 Video" FontSize="12" TextColor="#262626"/>
+                        <Label Text="😊 Feeling" FontSize="12" TextColor="#262626"/>
+                    </HorizontalStackLayout>
+
+                    <Grid Grid.Column="1" HeightRequest="32" WidthRequest="80">
+                        <Grid.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#833AB4" Offset="0.0"/>
+                                <GradientStop Color="#C13584" Offset="0.5"/>
+                                <GradientStop Color="#E1306C" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                        <Button Text="Share"
+                                Command="{Binding CreatePostCommand}"
+                                BackgroundColor="Transparent"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontSize="13"
+                                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
+                    </Grid>
+                </Grid>
+
+                <BoxView Grid.Row="2" HeightRequest="0.5" BackgroundColor="#DBDBDB"/>
+            </Grid>
         </Border>
 
-        <!-- Loading Indicator -->
-        <ActivityIndicator Grid.Row="1"
+        <!-- Activity Indicator -->
+        <ActivityIndicator Grid.Row="2"
                            IsRunning="{Binding IsBusy}"
                            IsVisible="{Binding IsBusy}"
-                           Color="#5B4FCF"/>
+                           Color="#C13584"
+                           VerticalOptions="End"
+                           Margin="0,0,0,4"/>
 
-        <!-- Posts List with pull-to-refresh -->
-        <RefreshView Grid.Row="2"
+        <!-- Feed -->
+        <RefreshView Grid.Row="3"
                      Command="{Binding LoadPostsCommand}"
-                     IsRefreshing="{Binding IsBusy}">
+                     IsRefreshing="{Binding IsBusy}"
+                     RefreshColor="#C13584">
             <CollectionView ItemsSource="{Binding Posts}"
-                            EmptyView="No posts yet. Be the first to post!">
+                            BackgroundColor="#FAFAFA"
+                            EmptyView="No posts yet. Share your first moment!">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Post">
-                        <Border Margin="0,5"
-                                Stroke="#E0E0E0" StrokeThickness="1"
-                                StrokeShape="RoundRectangle 10" Padding="15">
-                            <Grid RowDefinitions="Auto,Auto,Auto"
-                                  ColumnDefinitions="*,Auto,Auto"
-                                  RowSpacing="5">
 
-                                <Label Grid.Row="0" Grid.Column="0"
-                                       Text="{Binding Title}"
-                                       FontAttributes="Bold" FontSize="15" TextColor="#333"/>
+                        <!-- Instagram Post Card -->
+                        <VerticalStackLayout Spacing="0" Margin="0,6,0,0">
+                            <Border BackgroundColor="White"
+                                    Stroke="Transparent" StrokeThickness="0">
+                                <VerticalStackLayout Spacing="0">
 
-                                <Button Grid.Row="0" Grid.Column="1"
-                                        Text="✏️"
-                                        BackgroundColor="Transparent" FontSize="18" Padding="5,0"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}},
-                                                          Path=UpdatePostCommand}"
-                                        CommandParameter="{Binding .}"/>
+                                    <!-- Post Header -->
+                                    <Grid ColumnDefinitions="Auto,*,Auto"
+                                          Padding="12,10" ColumnSpacing="10">
 
-                                <Button Grid.Row="0" Grid.Column="2"
-                                        Text="🗑️"
-                                        BackgroundColor="Transparent" FontSize="18" Padding="5,0"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}},
-                                                          Path=DeletePostCommand}"
-                                        CommandParameter="{Binding .}"/>
+                                        <!-- Gradient Avatar -->
+                                        <Grid Grid.Column="0" WidthRequest="36" HeightRequest="36">
+                                            <Ellipse WidthRequest="36" HeightRequest="36">
+                                                <Ellipse.Fill>
+                                                    <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                                                        <GradientStop Color="#FCAF45" Offset="0.0"/>
+                                                        <GradientStop Color="#E1306C" Offset="0.5"/>
+                                                        <GradientStop Color="#833AB4" Offset="1.0"/>
+                                                    </LinearGradientBrush>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <Ellipse WidthRequest="32" HeightRequest="32"
+                                                     Fill="White"
+                                                     HorizontalOptions="Center" VerticalOptions="Center"/>
+                                            <Label Text="👤" FontSize="16"
+                                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        </Grid>
 
-                                <Label Grid.Row="1" Grid.ColumnSpan="3"
-                                       Text="{Binding Body}"
-                                       FontSize="13" TextColor="Gray"
-                                       MaxLines="3" LineBreakMode="TailTruncation"/>
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="1">
+                                            <Label Text="{Binding UserId, StringFormat='user_{0}'}"
+                                                   FontAttributes="Bold" FontSize="13" TextColor="#262626"/>
+                                            <Label Text="Just now" FontSize="11" TextColor="#8E8E8E"/>
+                                        </VerticalStackLayout>
 
-                                <Label Grid.Row="2" Grid.ColumnSpan="3"
-                                       Text="{Binding UserId, StringFormat='👤 User {0}'}"
-                                       FontSize="11" TextColor="#5B4FCF"/>
-                            </Grid>
-                        </Border>
+                                        <Label Grid.Column="2" Text="···"
+                                               FontSize="20" TextColor="#262626"
+                                               VerticalOptions="Center"/>
+                                    </Grid>
+
+                                    <!-- Post Image placeholder (gradient) -->
+                                    <Grid HeightRequest="320">
+                                        <Grid.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#405DE6" Offset="0.0"/>
+                                                <GradientStop Color="#833AB4" Offset="0.3"/>
+                                                <GradientStop Color="#C13584" Offset="0.6"/>
+                                                <GradientStop Color="#F77737" Offset="1.0"/>
+                                            </LinearGradientBrush>
+                                        </Grid.Background>
+                                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="8">
+                                            <Label Text="📸" FontSize="52" HorizontalOptions="Center"/>
+                                            <Label Text="{Binding Title}"
+                                                   FontSize="16" FontAttributes="Bold"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   HorizontalTextAlignment="Center"
+                                                   MaxLines="2"
+                                                   LineBreakMode="TailTruncation"
+                                                   Margin="20,0"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <!-- Action bar -->
+                                    <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto"
+                                          Padding="12,10" ColumnSpacing="16">
+                                        <Label Grid.Column="0" Text="♡" FontSize="26" TextColor="#262626"/>
+                                        <Label Grid.Column="1" Text="💬" FontSize="24" TextColor="#262626"/>
+                                        <Label Grid.Column="2" Text="✈" FontSize="22" TextColor="#262626"/>
+
+                                        <!-- Edit / Delete -->
+                                        <HorizontalStackLayout Grid.Column="4" Spacing="8">
+                                            <Button Text="✏️"
+                                                    BackgroundColor="Transparent" FontSize="20" Padding="4,0"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}},
+                                                                      Path=UpdatePostCommand}"
+                                                    CommandParameter="{Binding .}"/>
+                                            <Button Text="🗑️"
+                                                    BackgroundColor="Transparent" FontSize="20" Padding="4,0"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}},
+                                                                      Path=DeletePostCommand}"
+                                                    CommandParameter="{Binding .}"/>
+                                        </HorizontalStackLayout>
+                                    </Grid>
+
+                                    <!-- Likes / Caption -->
+                                    <VerticalStackLayout Padding="12,0,12,12" Spacing="4">
+                                        <Label FontSize="13" FontAttributes="Bold" TextColor="#262626">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding UserId, StringFormat='user_{0}'}" FontAttributes="Bold"/>
+                                                    <Span Text="  "/>
+                                                    <Span Text="{Binding Body}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label Text="View all comments"
+                                               FontSize="12" TextColor="#8E8E8E"/>
+                                    </VerticalStackLayout>
+
+                                    <!-- Bottom divider -->
+                                    <BoxView HeightRequest="0.5" BackgroundColor="#DBDBDB"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
