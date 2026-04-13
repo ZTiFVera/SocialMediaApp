@@ -35,9 +35,16 @@ namespace SocialMediaApp.ViewModels
             {
                 var success = await _authService.LoginAsync(Username, Password);
                 if (success)
-                    await Shell.Current.GoToAsync(nameof(HomePage));
+                {
+                    // Save username so ProfilePage can display it
+                    Preferences.Set("username", Username);
+                    // Absolute route switches Shell into the TabBar
+                    await Shell.Current.GoToAsync("//HomePage");
+                }
                 else
+                {
                     await Shell.Current.DisplayAlert("Error", "Invalid credentials", "OK");
+                }
             }
             finally { IsBusy = false; }
         }

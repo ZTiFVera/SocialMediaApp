@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using SocialMediaApp.Models;
-using static Java.Interop.JniEnvironment;
 
 namespace SocialMediaApp.ViewModels
 {
@@ -37,10 +35,7 @@ namespace SocialMediaApp.ViewModels
         }
 
         [RelayCommand]
-        private void EditProfile()
-        {
-            IsEditing = true;
-        }
+        private void EditProfile() => IsEditing = true;
 
         [RelayCommand]
         private async Task SaveProfileAsync()

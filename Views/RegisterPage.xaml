@@ -1,73 +1,50 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SocialMediaApp.ViewModels"
              x:Class="SocialMediaApp.Views.RegisterPage"
-             Title="RegisterPage">
-    <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="20"
-                             VerticalOptions="Center">
+             x:DataType="vm:RegisterViewModel"
+             Title="{Binding Title}">
 
-            <!-- Header -->
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+
             <Label Text="🌐 SocialApp"
-                   FontSize="36"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="#5B4FCF"/>
+                   FontSize="36" FontAttributes="Bold"
+                   HorizontalOptions="Center" TextColor="#5B4FCF"/>
 
             <Label Text="Create an Account"
-                   FontSize="18"
-                   HorizontalOptions="Center"
-                   TextColor="Gray"/>
+                   FontSize="18" HorizontalOptions="Center" TextColor="Gray"/>
 
-            <!-- Username -->
-            <Border Stroke="#E0E0E0" StrokeThickness="1"
-                    StrokeShape="RoundRectangle 10">
-                <Entry Placeholder="Username"
-                       Text="{Binding Username}"
-                       Margin="10,5"/>
+            <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10">
+                <Entry Placeholder="Username" Text="{Binding Username}" Margin="10,5"/>
             </Border>
 
-            <!-- Email -->
-            <Border Stroke="#E0E0E0" StrokeThickness="1"
-                    StrokeShape="RoundRectangle 10">
-                <Entry Placeholder="Email"
-                       Text="{Binding Email}"
-                       Keyboard="Email"
-                       Margin="10,5"/>
+            <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10">
+                <Entry Placeholder="Email" Text="{Binding Email}"
+                       Keyboard="Email" Margin="10,5"/>
             </Border>
 
-            <!-- Password -->
-            <Border Stroke="#E0E0E0" StrokeThickness="1"
-                    StrokeShape="RoundRectangle 10">
-                <Entry Placeholder="Password"
-                       Text="{Binding Password}"
-                       IsPassword="True"
-                       Margin="10,5"/>
+            <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 10">
+                <Entry Placeholder="Password" Text="{Binding Password}"
+                       IsPassword="True" Margin="10,5"/>
             </Border>
 
-            <!-- Register Button -->
             <Button Text="Create Account"
                     Command="{Binding RegisterCommand}"
-                    BackgroundColor="#5B4FCF"
-                    TextColor="White"
-                    CornerRadius="10"
-                    HeightRequest="50"
+                    BackgroundColor="#5B4FCF" TextColor="White"
+                    CornerRadius="10" HeightRequest="50"
                     IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
 
-            <!-- Loading Indicator -->
             <ActivityIndicator IsRunning="{Binding IsBusy}"
-                               IsVisible="{Binding IsBusy}"
-                               Color="#5B4FCF"/>
+                               IsVisible="{Binding IsBusy}" Color="#5B4FCF"/>
 
-            <!-- Back to Login -->
             <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
                 <Label Text="Already have an account?" VerticalOptions="Center"/>
                 <Button Text="Login"
                         Command="{Binding GoBackCommand}"
-                        BackgroundColor="Transparent"
-                        TextColor="#5B4FCF"
-                        FontAttributes="Bold"
-                        Padding="0"/>
+                        BackgroundColor="Transparent" TextColor="#5B4FCF"
+                        FontAttributes="Bold" Padding="0"/>
             </HorizontalStackLayout>
 
         </VerticalStackLayout>

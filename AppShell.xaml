@@ -5,12 +5,16 @@
        x:Class="SocialMediaApp.AppShell"
        Shell.NavBarHasShadow="True">
 
-    <!-- Login as default before tabs -->
     <ShellContent Title="Login"
                   ContentTemplate="{DataTemplate views:LoginPage}"
-                  Route="LoginPage"/>
+                  Route="LoginPage"
+                  Shell.TabBarIsVisible="False"/>
 
-    <!-- Tab Bar -->
+    <ShellContent Title="Register"
+                  ContentTemplate="{DataTemplate views:RegisterPage}"
+                  Route="RegisterPage"
+                  Shell.TabBarIsVisible="False"/>
+
     <TabBar>
         <ShellContent Title="Home"
                       Icon="home.png"

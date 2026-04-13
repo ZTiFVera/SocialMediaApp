@@ -53,7 +53,7 @@ namespace SocialMediaApp.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Error", "Registration failed", "OK");
+                    await Shell.Current.DisplayAlert("Error", "Registration failed. Username may already exist.", "OK");
                 }
             }
             finally { IsBusy = false; }

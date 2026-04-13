@@ -15,7 +15,10 @@ namespace SocialMediaApp.Services
 
         public PostService()
         {
-            _httpClient = new HttpClient { BaseAddress = new Uri(ApiConstants.BaseUrl) };
+            _httpClient = new HttpClient
+            {
+                BaseAddress = new Uri(ApiConstants.BaseUrl)
+            };
         }
 
         public async Task<List<Post>> GetPostsAsync()
@@ -70,4 +73,3 @@ namespace SocialMediaApp.Services
         }
     }
 }
-

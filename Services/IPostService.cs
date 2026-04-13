@@ -14,5 +14,4 @@ namespace SocialMediaApp.Services
         Task<bool> UpdatePostAsync(Post post);
         Task<bool> DeletePostAsync(int id);
     }
-    
 }

@@ -3,51 +3,46 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:SocialMediaApp.ViewModels"
              xmlns:models="clr-namespace:SocialMediaApp.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="SocialMediaApp.Views.HomePage"
              x:DataType="vm:HomeViewModel"
              Title="{Binding Title}">
 
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            EventName="Appearing"
+            Command="{Binding LoadPostsCommand}"/>
+    </ContentPage.Behaviors>
+
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Logout"
-                     Command="{Binding LogoutCommand}"/>
+        <ToolbarItem Text="Logout" Command="{Binding LogoutCommand}"/>
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="Auto,Auto,*" Padding="15" RowSpacing="10">
 
         <!-- Create Post Section -->
         <Border Grid.Row="0"
-                Stroke="#E0E0E0"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 12"
-                Padding="15">
+                Stroke="#E0E0E0" StrokeThickness="1"
+                StrokeShape="RoundRectangle 12" Padding="15">
             <VerticalStackLayout Spacing="10">
 
                 <Label Text="Create a Post"
-                       FontSize="16"
-                       FontAttributes="Bold"
-                       TextColor="#5B4FCF"/>
+                       FontSize="16" FontAttributes="Bold" TextColor="#5B4FCF"/>
 
-                <Border Stroke="#E0E0E0" StrokeThickness="1"
-                        StrokeShape="RoundRectangle 8">
-                    <Entry Placeholder="Post Title"
-                           Text="{Binding NewPostTitle}"
-                           Margin="10,5"/>
+                <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 8">
+                    <Entry Placeholder="Post Title" Text="{Binding NewPostTitle}" Margin="10,5"/>
                 </Border>
 
-                <Border Stroke="#E0E0E0" StrokeThickness="1"
-                        StrokeShape="RoundRectangle 8">
+                <Border Stroke="#E0E0E0" StrokeThickness="1" StrokeShape="RoundRectangle 8">
                     <Editor Placeholder="What's on your mind?"
                             Text="{Binding NewPostBody}"
-                            HeightRequest="80"
-                            Margin="10,5"/>
+                            HeightRequest="80" Margin="10,5"/>
                 </Border>
 
                 <Button Text="Post"
                         Command="{Binding CreatePostCommand}"
-                        BackgroundColor="#5B4FCF"
-                        TextColor="White"
-                        CornerRadius="8"
-                        HeightRequest="45"
+                        BackgroundColor="#5B4FCF" TextColor="White"
+                        CornerRadius="8" HeightRequest="45"
                         IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
             </VerticalStackLayout>
         </Border>
@@ -58,66 +53,53 @@
                            IsVisible="{Binding IsBusy}"
                            Color="#5B4FCF"/>
 
-        <!-- Posts List -->
-        <CollectionView Grid.Row="2"
-                        ItemsSource="{Binding Posts}"
-                        EmptyView="No posts yet. Be the first to post!">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Post">
-                    <Border Margin="0,5"
-                            Stroke="#E0E0E0"
-                            StrokeThickness="1"
-                            StrokeShape="RoundRectangle 10"
-                            Padding="15">
-                        <Grid RowDefinitions="Auto,Auto,Auto"
-                              ColumnDefinitions="*,Auto,Auto"
-                              RowSpacing="5">
+        <!-- Posts List with pull-to-refresh -->
+        <RefreshView Grid.Row="2"
+                     Command="{Binding LoadPostsCommand}"
+                     IsRefreshing="{Binding IsBusy}">
+            <CollectionView ItemsSource="{Binding Posts}"
+                            EmptyView="No posts yet. Be the first to post!">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Post">
+                        <Border Margin="0,5"
+                                Stroke="#E0E0E0" StrokeThickness="1"
+                                StrokeShape="RoundRectangle 10" Padding="15">
+                            <Grid RowDefinitions="Auto,Auto,Auto"
+                                  ColumnDefinitions="*,Auto,Auto"
+                                  RowSpacing="5">
 
-                            <!-- Post Title -->
-                            <Label Grid.Row="0" Grid.Column="0"
-                                   Text="{Binding Title}"
-                                   FontAttributes="Bold"
-                                   FontSize="15"
-                                   TextColor="#333"/>
+                                <Label Grid.Row="0" Grid.Column="0"
+                                       Text="{Binding Title}"
+                                       FontAttributes="Bold" FontSize="15" TextColor="#333"/>
 
-                            <!-- Update Button -->
-                            <Button Grid.Row="0" Grid.Column="1"
-                                    Text="✏️"
-                                    BackgroundColor="Transparent"
-                                    FontSize="18"
-                                    Padding="5,0"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}},
-                                                      Path=UpdatePostCommand}"
-                                    CommandParameter="{Binding .}"/>
+                                <Button Grid.Row="0" Grid.Column="1"
+                                        Text="✏️"
+                                        BackgroundColor="Transparent" FontSize="18" Padding="5,0"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}},
+                                                          Path=UpdatePostCommand}"
+                                        CommandParameter="{Binding .}"/>
 
-                            <!-- Delete Button -->
-                            <Button Grid.Row="0" Grid.Column="2"
-                                    Text="🗑️"
-                                    BackgroundColor="Transparent"
-                                    FontSize="18"
-                                    Padding="5,0"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}},
-                                                      Path=DeletePostCommand}"
-                                    CommandParameter="{Binding .}"/>
+                                <Button Grid.Row="0" Grid.Column="2"
+                                        Text="🗑️"
+                                        BackgroundColor="Transparent" FontSize="18" Padding="5,0"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}},
+                                                          Path=DeletePostCommand}"
+                                        CommandParameter="{Binding .}"/>
 
-                            <!-- Post Body -->
-                            <Label Grid.Row="1" Grid.ColumnSpan="3"
-                                   Text="{Binding Body}"
-                                   FontSize="13"
-                                   TextColor="Gray"
-                                   MaxLines="3"
-                                   LineBreakMode="TailTruncation"/>
+                                <Label Grid.Row="1" Grid.ColumnSpan="3"
+                                       Text="{Binding Body}"
+                                       FontSize="13" TextColor="Gray"
+                                       MaxLines="3" LineBreakMode="TailTruncation"/>
 
-                            <!-- User ID Tag -->
-                            <Label Grid.Row="2" Grid.ColumnSpan="3"
-                                   Text="{Binding UserId, StringFormat='👤 User {0}'}"
-                                   FontSize="11"
-                                   TextColor="#5B4FCF"/>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                                <Label Grid.Row="2" Grid.ColumnSpan="3"
+                                       Text="{Binding UserId, StringFormat='👤 User {0}'}"
+                                       FontSize="11" TextColor="#5B4FCF"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
 
     </Grid>
 </ContentPage>

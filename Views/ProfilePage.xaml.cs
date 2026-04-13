@@ -1,5 +1,6 @@
 using SocialMediaApp.ViewModels;
 
+
 namespace SocialMediaApp.Views;
 
 public partial class ProfilePage : ContentPage

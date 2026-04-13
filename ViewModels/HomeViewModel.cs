@@ -29,10 +29,25 @@ namespace SocialMediaApp.ViewModels
         }
 
         [RelayCommand]
-        private Task LoadPostsAsync()
+        private async Task LoadPostsAsync()
         {
-            Posts.Clear();
-            return Task.CompletedTask;
+            if (IsBusy) return;
+
+            IsBusy = true;
+            try
+            {
+                var result = await _postService.GetPostsAsync();
+                Posts.Clear();
+                foreach (var post in result)
+                    Posts.Add(post);
+
+                Preferences.Set("postsCount", Posts.Count);
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"Failed to load posts: {ex.Message}", "OK");
+            }
+            finally { IsBusy = false; }
         }
 
         [RelayCommand]
@@ -70,6 +85,10 @@ namespace SocialMediaApp.ViewModels
                     NewPostBody = string.Empty;
                     await Shell.Current.DisplayAlert("Success", "Post created!", "OK");
                 }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", "Failed to create post.", "OK");
+                }
             }
             finally { IsBusy = false; }
         }
@@ -90,6 +109,10 @@ namespace SocialMediaApp.ViewModels
                     Posts.Remove(post);
                     Preferences.Set("postsCount", Posts.Count);
                 }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", "Failed to delete post.", "OK");
+                }
             }
             finally { IsBusy = false; }
         }
@@ -104,17 +127,28 @@ namespace SocialMediaApp.ViewModels
             IsBusy = true;
             try
             {
-                post.Title = newTitle;
-                var success = await _postService.UpdatePostAsync(post);
+                var updatedPost = new Post
+                {
+                    Id = post.Id,
+                    Title = newTitle,
+                    Body = post.Body,
+                    UserId = post.UserId
+                };
+
+                var success = await _postService.UpdatePostAsync(updatedPost);
                 if (success)
                 {
                     var index = Posts.IndexOf(post);
                     if (index >= 0)
                     {
                         Posts.RemoveAt(index);
-                        Posts.Insert(index, post);
+                        Posts.Insert(index, updatedPost);
                     }
                     await Shell.Current.DisplayAlert("Success", "Post updated!", "OK");
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", "Failed to update post.", "OK");
                 }
             }
             finally { IsBusy = false; }
