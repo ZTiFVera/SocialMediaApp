@@ -18,6 +18,6 @@ public partial class HomePage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await _vm.LoadPostsCommand.ExecuteAsync(null);
+      
     }
 }

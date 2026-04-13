@@ -2,16 +2,10 @@
 using CommunityToolkit.Mvvm.Input;
 using SocialMediaApp.Models;
 using SocialMediaApp.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialMediaApp.ViewModels
 {
-
     public partial class HomeViewModel : BaseViewModel
     {
         private readonly IPostService _postService;
@@ -35,21 +29,10 @@ namespace SocialMediaApp.ViewModels
         }
 
         [RelayCommand]
-        private async Task LoadPostsAsync()
+        private Task LoadPostsAsync()
         {
-            IsBusy = true;
-            try
-            {
-                var result = await _postService.GetPostsAsync();
-                Posts.Clear();
-                foreach (var post in result.Take(20))
-                    Posts.Add(post);
-            }
-            catch (Exception ex)
-            {
-                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
-            }
-            finally { IsBusy = false; }
+            Posts.Clear();
+            return Task.CompletedTask;
         }
 
         [RelayCommand]
@@ -82,10 +65,9 @@ namespace SocialMediaApp.ViewModels
                         Body = NewPostBody,
                         UserId = 1
                     });
-
+                    Preferences.Set("postsCount", Posts.Count);
                     NewPostTitle = string.Empty;
                     NewPostBody = string.Empty;
-
                     await Shell.Current.DisplayAlert("Success", "Post created!", "OK");
                 }
             }
@@ -97,7 +79,6 @@ namespace SocialMediaApp.ViewModels
         {
             bool confirm = await Shell.Current.DisplayAlert(
                 "Delete", $"Delete '{post.Title}'?", "Yes", "No");
-
             if (!confirm) return;
 
             IsBusy = true;
@@ -105,7 +86,10 @@ namespace SocialMediaApp.ViewModels
             {
                 var success = await _postService.DeletePostAsync(post.Id);
                 if (success)
+                {
                     Posts.Remove(post);
+                    Preferences.Set("postsCount", Posts.Count);
+                }
             }
             finally { IsBusy = false; }
         }
@@ -115,7 +99,6 @@ namespace SocialMediaApp.ViewModels
         {
             string? newTitle = await Shell.Current.DisplayPromptAsync(
                 "Update Post", "Enter new title:", initialValue: post.Title);
-
             if (string.IsNullOrWhiteSpace(newTitle)) return;
 
             IsBusy = true;
@@ -144,4 +127,3 @@ namespace SocialMediaApp.ViewModels
         }
     }
 }
-

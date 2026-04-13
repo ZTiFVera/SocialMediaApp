@@ -2,11 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using SocialMediaApp.Models;
 using SocialMediaApp.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialMediaApp.ViewModels
 {
@@ -18,7 +13,7 @@ namespace SocialMediaApp.ViewModels
         private string username = string.Empty;
 
         [ObservableProperty]
-        private string  email = string.Empty;
+        private string email = string.Empty;
 
         [ObservableProperty]
         private string password = string.Empty;

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SocialMediaApp.ViewModels"
+             x:Class="SocialMediaApp.Views.ProfilePage"
+             x:DataType="vm:ProfileViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Avatar -->
+            <Border StrokeShape="RoundRectangle 60"
+                    Stroke="#5B4FCF"
+                    StrokeThickness="3"
+                    HeightRequest="110"
+                    WidthRequest="110"
+                    HorizontalOptions="Center"
+                    BackgroundColor="#5B4FCF">
+                <Label Text="👤"
+                       FontSize="55"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+            </Border>
+
+            <!-- Username Display -->
+            <Label Text="{Binding Username}"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#5B4FCF"/>
+
+            <!-- Posts Count -->
+            <Border Stroke="#E0E0E0"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="15"
+                    HorizontalOptions="Center"
+                    WidthRequest="160">
+                <VerticalStackLayout>
+                    <Label Text="{Binding PostsCount}"
+                           FontSize="26"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="#5B4FCF"/>
+                    <Label Text="Posts"
+                           FontSize="13"
+                           HorizontalOptions="Center"
+                           TextColor="Gray"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Profile Info / Edit Form -->
+            <Border Stroke="#E0E0E0"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="20">
+                <VerticalStackLayout Spacing="15">
+
+                    <Label Text="Profile Info"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#5B4FCF"/>
+
+                    <!-- Username -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Username" FontSize="12" TextColor="Gray"/>
+                        <Border Stroke="#E0E0E0" StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8">
+                            <Entry Text="{Binding Username}"
+                                   IsReadOnly="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}"
+                                   Margin="10,5"/>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Email -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Email" FontSize="12" TextColor="Gray"/>
+                        <Border Stroke="#E0E0E0" StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8">
+                            <Entry Text="{Binding Email}"
+                                   IsReadOnly="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}"
+                                   Keyboard="Email"
+                                   Margin="10,5"/>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Bio -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Bio" FontSize="12" TextColor="Gray"/>
+                        <Border Stroke="#E0E0E0" StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8">
+                            <Editor Text="{Binding Bio}"
+                                    IsReadOnly="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}"
+                                    HeightRequest="80"
+                                    Margin="10,5"/>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Edit Button -->
+                    <Button Text="Edit Profile"
+                            Command="{Binding EditProfileCommand}"
+                            BackgroundColor="#5B4FCF"
+                            TextColor="White"
+                            CornerRadius="8"
+                            HeightRequest="45"
+                            IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}"/>
+
+                    <!-- Save / Cancel Buttons -->
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10"
+                          IsVisible="{Binding IsEditing}">
+                        <Button Grid.Column="0"
+                                Text="Save"
+                                Command="{Binding SaveProfileCommand}"
+                                BackgroundColor="#5B4FCF"
+                                TextColor="White"
+                                CornerRadius="8"
+                                HeightRequest="45"/>
+                        <Button Grid.Column="1"
+                                Text="Cancel"
+                                Command="{Binding CancelEditCommand}"
+                                BackgroundColor="#E0E0E0"
+                                TextColor="#333"
+                                CornerRadius="8"
+                                HeightRequest="45"/>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Logout Button -->
+            <Button Text="Logout"
+                    Command="{Binding LogoutCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="Red"
+                    BorderColor="Red"
+                    BorderWidth="1"
+                    CornerRadius="8"
+                    HeightRequest="45"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -13,6 +13,9 @@ namespace SocialMediaApp.Services
     {
         private readonly HttpClient _httpClient;
 
+        // Local store for newly registered users
+        private static readonly List<User> _localUsers = new();
+
         public AuthService()
         {
             _httpClient = new HttpClient { BaseAddress = new Uri(ApiConstants.BaseUrl) };
@@ -22,13 +25,19 @@ namespace SocialMediaApp.Services
         {
             try
             {
+                // Check locally registered users first
+                if (_localUsers.Any(u =>
+                    u.Username.Equals(username, StringComparison.OrdinalIgnoreCase) &&
+                    u.Password == password))
+                    return true;
+
+                // Fall back to JSONPlaceholder users (no real passwords, so just check username)
                 var response = await _httpClient.GetAsync(ApiConstants.UsersEndpoint);
                 if (!response.IsSuccessStatusCode) return false;
 
                 var json = await response.Content.ReadAsStringAsync();
                 var users = JsonConvert.DeserializeObject<List<User>>(json);
 
-                // Simulate login check by username only (JSONPlaceholder has no real passwords)
                 return users?.Any(u =>
                     u.Username.Equals(username, StringComparison.OrdinalIgnoreCase)) ?? false;
             }
@@ -39,12 +48,20 @@ namespace SocialMediaApp.Services
         {
             try
             {
-                var json = JsonConvert.SerializeObject(user);
-                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                // Prevent duplicate usernames
+                if (_localUsers.Any(u =>
+                    u.Username.Equals(user.Username, StringComparison.OrdinalIgnoreCase)))
+                    return false;
 
-                // POST to REST API (JSONPlaceholder simulates success)
+                var json = JsonConvert.SerializeObject(user);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
                 var response = await _httpClient.PostAsync(ApiConstants.UsersEndpoint, content);
-                return response.IsSuccessStatusCode;
+                if (!response.IsSuccessStatusCode) return false;
+
+                // Save locally so login works afterward
+                _localUsers.Add(user);
+                return true;
             }
             catch { return false; }
         }

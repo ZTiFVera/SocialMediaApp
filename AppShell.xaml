@@ -5,9 +5,21 @@
        x:Class="SocialMediaApp.AppShell"
        Shell.NavBarHasShadow="True">
 
-    <!-- Login Page as default route -->
+    <!-- Login as default before tabs -->
     <ShellContent Title="Login"
                   ContentTemplate="{DataTemplate views:LoginPage}"
                   Route="LoginPage"/>
+
+    <!-- Tab Bar -->
+    <TabBar>
+        <ShellContent Title="Home"
+                      Icon="home.png"
+                      ContentTemplate="{DataTemplate views:HomePage}"
+                      Route="HomePage"/>
+        <ShellContent Title="Profile"
+                      Icon="profile.png"
+                      ContentTemplate="{DataTemplate views:ProfilePage}"
+                      Route="ProfilePage"/>
+    </TabBar>
 
 </Shell>

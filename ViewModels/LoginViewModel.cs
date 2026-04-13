@@ -2,11 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using SocialMediaApp.Services;
 using SocialMediaApp.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialMediaApp.ViewModels
 {
@@ -54,4 +49,3 @@ namespace SocialMediaApp.ViewModels
         }
     }
 }
-
