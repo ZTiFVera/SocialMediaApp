@@ -52,7 +52,7 @@ namespace SocialMediaApp.ViewModels
         [RelayCommand]
         private async Task GoToRegisterAsync()
         {
-            await Shell.Current.GoToAsync(nameof(RegisterPage));
+            await Shell.Current.GoToAsync("///RegisterPage");
         }
     }
 }
