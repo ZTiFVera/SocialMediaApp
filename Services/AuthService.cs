@@ -1,11 +1,7 @@
 ﻿using Newtonsoft.Json;
 using SocialMediaApp.Helpers;
 using SocialMediaApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialMediaApp.Services
 {
@@ -13,42 +9,32 @@ namespace SocialMediaApp.Services
     {
         private readonly HttpClient _httpClient;
 
-        // Holds users registered during the current app session
-        private static readonly List<User> _localUsers = new();
-
         public AuthService()
         {
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri(ApiConstants.BaseUrl)
-            };
+            _httpClient = new HttpClient();
         }
 
-        public async Task<bool> LoginAsync(string username, string password)
+        public Task<bool> LoginAsync(string username, string password)
         {
             try
             {
-                // 1. Check locally registered users first (full credential match)
-                if (_localUsers.Any(u =>
-                        u.Username.Equals(username, StringComparison.OrdinalIgnoreCase) &&
-                        u.Password == password))
-                    return true;
+                var storedUsers = GetStoredUsers();
 
-                // 2. Fall back to JSONPlaceholder seed users.
-                //    The API has no real passwords, so any non-empty password
-                //    is accepted for seed accounts so the demo works out of the box.
-                var response = await _httpClient.GetAsync(ApiConstants.UsersEndpoint);
-                if (!response.IsSuccessStatusCode) return false;
+                System.Diagnostics.Debug.WriteLine($"[Login] Checking {storedUsers.Count} stored users");
+                foreach (var u in storedUsers)
+                    System.Diagnostics.Debug.WriteLine($"[Login] Stored: '{u.Username}' / '{u.Password}'");
+                System.Diagnostics.Debug.WriteLine($"[Login] Trying: '{username}' / '{password}'");
 
-                var json = await response.Content.ReadAsStringAsync();
-                var users = JsonConvert.DeserializeObject<List<User>>(json);
+                var found = storedUsers.Any(u =>
+                    u.Username.Equals(username, StringComparison.OrdinalIgnoreCase) &&
+                    u.Password == password);
 
-                return users?.Any(u =>
-                    u.Username.Equals(username, StringComparison.OrdinalIgnoreCase)) ?? false;
+                return Task.FromResult(found);
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                System.Diagnostics.Debug.WriteLine($"[Login] Exception: {ex.Message}");
+                return Task.FromResult(false);
             }
         }
 
@@ -56,24 +42,67 @@ namespace SocialMediaApp.Services
         {
             try
             {
-                // Prevent duplicate usernames within the session
-                if (_localUsers.Any(u =>
-                        u.Username.Equals(user.Username, StringComparison.OrdinalIgnoreCase)))
+                // Check duplicate
+                var storedUsers = GetStoredUsers();
+                if (storedUsers.Any(u =>
+                    u.Username.Equals(user.Username, StringComparison.OrdinalIgnoreCase)))
+                {
+                    System.Diagnostics.Debug.WriteLine($"[Register] Duplicate username: {user.Username}");
                     return false;
+                }
 
+                // Post to MockAPI
+                var url = ApiConstants.BaseUrl + ApiConstants.UsersEndpoint;
                 var json = JsonConvert.SerializeObject(user);
-                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync(ApiConstants.UsersEndpoint, content);
-                if (!response.IsSuccessStatusCode) return false;
+                System.Diagnostics.Debug.WriteLine($"[Register] POST {url} | {json}");
 
-                // Persist locally so the login check above can find this user
-                _localUsers.Add(user);
+                var response = await _httpClient.PostAsync(url, content);
+                var raw = await response.Content.ReadAsStringAsync();
+
+                System.Diagnostics.Debug.WriteLine($"[Register] Status: {response.StatusCode} | Body: {raw}");
+
+                // Save locally regardless of API result
+                // so login always works after register
+                storedUsers.Add(user);
+                SaveStoredUsers(storedUsers);
+
+                System.Diagnostics.Debug.WriteLine($"[Register] Saved user locally. Total: {storedUsers.Count}");
                 return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Register] Exception: {ex.Message}");
+                return false;
+            }
+        }
+
+        private List<User> GetStoredUsers()
+        {
+            try
+            {
+                var json = Preferences.Get("registered_users", "[]");
+                System.Diagnostics.Debug.WriteLine($"[Storage] Raw: {json}");
+                return JsonConvert.DeserializeObject<List<User>>(json) ?? new List<User>();
             }
             catch
             {
-                return false;
+                return new List<User>();
+            }
+        }
+
+        private void SaveStoredUsers(List<User> users)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(users);
+                Preferences.Set("registered_users", json);
+                System.Diagnostics.Debug.WriteLine($"[Storage] Saved: {json}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Storage] Save failed: {ex.Message}");
             }
         }
     }
